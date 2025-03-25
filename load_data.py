@@ -90,6 +90,48 @@ def append_raw_ecg_data(data_csv: pd.DataFrame, data_ecg: np.array) -> pd.DataFr
     data['ecg'] = ecg_list
     return data
 
+def append_diagnostic_superclass(data: pd.DataFrame, path: str) -> pd.DataFrame:
+    """
+    Append the diagnostic superclass to the metadata DataFrame.
+
+    Parameters
+    ----------
+    data : DataFrame
+        DataFrame containing metadata and ECG data.
+    path : str
+        Path to the dataset.
+    """
+    # Load scp_statements.csv for diagnostic aggregation
+    agg_df = pd.read_csv(path+'scp_statements.csv', index_col=0)
+    agg_df = agg_df[agg_df.diagnostic == 1]
+
+    def aggregate_diagnostic(y_dic: pd.Series) -> list:
+        """
+        Given the dictionary of diagnoses for any row, obtain and
+        return a set of all their diagnostic superclasses as 
+        specified in the dataset files.
+
+        Parameters
+        ----------
+        y_dic : dict
+            Dictionary of diagnoses.
+        
+        Returns
+        -------
+        list
+            List of diagnostic superclasses.
+        """
+        tmp = []
+        for key in y_dic.keys():
+            if key in agg_df.index:
+                tmp.append(agg_df.loc[key].diagnostic_class)
+        return list(set(tmp))
+
+    # For each list of diagnoses in scp_codes column, get diagnostic super classes and isnert them into a new column 
+    data['diagnostic_superclass'] = data.scp_codes.apply(aggregate_diagnostic)
+    return data
+
+
 def main():
     # Check if correct number of arguments are passed
     if len(sys.argv) != 3:
@@ -112,6 +154,9 @@ def main():
 
     # load and convert csv data
     data_csv = load_metadata(path)
+    
+    # append diagnostic superclass to metadata
+    data_csv = append_diagnostic_superclass(data_csv, path)
 
     # load raw ECG data
     data_ecg = load_raw_ecg_data(data_csv, sampling_rate, path)
@@ -120,6 +165,8 @@ def main():
     data = append_raw_ecg_data(data_csv, data_ecg)
 
     # save data to pickle file
+    if not os.path.exists('data'):
+        os.makedirs('data')
     with open('data/raw_data.pkl', 'wb') as f:
         pickle.dump(data, f)
 
