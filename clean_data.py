@@ -1,5 +1,7 @@
 """"
 Clean the processed data and save to pkl file. Removes unwanted features, imputes missing values, and scales the data.
+Select features using model-based feature selection and PCA for dimensionality reduction. 
+Save the cleaned data to cleaned_data.pkl.
 
 Usage: 
     python clean_data.py 
@@ -7,16 +9,24 @@ Usage:
 
 import pandas as pd
 import numpy as np
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer # for imputation
+from sklearn.preprocessing import StandardScaler, MultiLabelBinarizer # for scaling and binarizing data
+from sklearn.ensemble import RandomForestClassifier # for feature selection
+from sklearn.feature_selection import SelectFromModel # for feature selection
+from sklearn.multioutput import MultiOutputClassifier # for multi-label classification
+from sklearn.decomposition import PCA # dimensionality reduction
+from sklearn.model_selection import train_test_split # for splitting data
 import pickle
 import os
 import sys
 
 def main():
     # Load the pickled dataframe
+    print('Loading raw data...')
     with open('data/processed_data.pkl', 'rb') as f:
         data = pickle.load(f)
+
+    print('Cleaning data...')
 
     # Remove arbitrary features 
     cols_to_drop = [
@@ -34,34 +44,61 @@ def main():
                     'total_voltage_11', 'total_voltage_12']
     data.drop(columns=cols_to_drop, axis=1, inplace=True)
 
-    # Drop columns with many missing values and diagnosis data
+    # Drop columns with many missing values or diagnosis data
     columns_to_drop = ['height', 'weight']
     data.drop(columns_to_drop, axis=1, inplace=True)
+    data.drop(data[data['diagnostic_superclass'].isna()].index, inplace=True)
 
-    # impute missing values
-    imputer = SimpleImputer(strategy='mean')
+    # Split X and y
     y = data['diagnostic_superclass']
     data.drop(columns=['diagnostic_superclass'], axis=1, inplace=True)
+    print('Imputing missing values...')
+    
+    # impute missing values
+    imputer = SimpleImputer(strategy='mean')
     data[:] = imputer.fit_transform(data[:])
-    data['diagnostic_superclass'] = y
-
-    # Scale data
+    
+    # Scale data 
+    print('Scaling data...')
     scaler = StandardScaler()
-    y = data['diagnostic_superclass']
-    data.drop(columns=['diagnostic_superclass'], inplace=True)
-    # Use dataframe constructor to avoid implicit cast warning
     data = pd.DataFrame( 
         scaler.fit_transform(data.astype(np.float64)),
         columns=data.columns,
         index=data.index
     )
-    data['diagnostic_superclass'] = y
 
     # No categorical data, so no one hot encoding needed
 
+    # Model-based feature selection using Random Forest
+    print('Model-based feature selection...')
+    mlb = MultiLabelBinarizer()
+    y_binarize = mlb.fit_transform(y)
+    rf = MultiOutputClassifier(RandomForestClassifier(random_state=61297), n_jobs=-1) 
+    rf.fit(data, y_binarize)
+    features = set()
+    for i, estimator in enumerate(rf.estimators_):
+        selected_features = SelectFromModel(estimator, threshold='mean', prefit=True).get_support(indices=True)
+        features.update(selected_features)
+    data = data.iloc[:, list(features)]
+    print(f'Number of features selected: {len(features)}')
+    print(f'Features selected: {list(data.columns)}')
+
+    # Apply PCA to reduce dimensionality
+    print('Reducing dimensions...')
+    pca = PCA(n_components=0.95)  # Keep 95% of variance
+    data = pd.DataFrame(pca.fit_transform(data))
+    print('Number of components: ', pca.n_components_)
+    print('Explained variance: ', str(pca.explained_variance_ratio_.sum()*100) + '%')
+
+    # Split train and test data
+    print('Splitting data...')
+    X_train, X_test, y_train, y_test = train_test_split(data, y, random_state=61297)
+
     # Save the cleaned data to a new pickle file
-    with open('data/cleaned_data.pkl', 'wb') as f:
-        pickle.dump(data, f)
+    path = 'data/cleaned_data.pkl' 
+    print(path)
+    with open(path, 'wb') as f:
+        pickle.dump((X_train, X_test, y_train, y_test), f)
 
 
 if __name__ == "__main__":
