@@ -1,0 +1,17 @@
+# Python Environment 
+.conda/
+env/
+venv/
+
+# IDE
+.vscode/
+
+# Pickle files
+*.pkl
+
+# Output files
+output/
+metrics/
+
+# Python
+__pycache__/
