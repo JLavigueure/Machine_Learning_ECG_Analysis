@@ -1,6 +1,7 @@
 """"
-Load data from PTB-XL dataset and store in raw_data.pkl. Data is either sampled at 100Hz or 500Hz.
+Load data from PTB-XL dataset and store in raw_data.pkl. Data is either sampled at 100Hz or 500Hz. 
 Data obtained from: https://www.kaggle.com/datasets/khyeh0719/ptb-xl-dataset/data
+Save raw data dataframe to data/raw_data.pkl.
 
 Usage: 
     python load_data.py <path_to_dataset_folder> <sampling_rate>
@@ -139,7 +140,7 @@ def main():
         return
 
     # path to data and sampling rate of data to use
-    path = sys.argv[1]
+    path = sys.argv[1] + '/'
     sampling_rate = int(sys.argv[2])
 
     # check if path exists
