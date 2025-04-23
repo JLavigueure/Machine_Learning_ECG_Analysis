@@ -112,24 +112,25 @@ Linux
 All the scripts are saved in the main repo directory. Additional custcom classes for multilabel models, voting classifiers, and stack models are under the classes folder. The scripts are intended to run in order, and each saves its output via pickle files. Each script's description and usage is stated at the top of the file as a docstring.
 
 ### Scripts
-* **load_data.py**
-  <br> Loads in the PTB-XL dataset and ECG files.
-* **signal_processing.py**
-  <br> Perform signal processing on the ECG data to extract features.
-* **exploratory_data_analysis.py**
-  <br> Performs EDA on the dataset: identifies quantity of missing values, distribution of data + labels, and correllation of features to each label. Save outputs to output/.
-* **clean_data.py**
-  <br> Remove low-correllation features, impute missing values, scale data, perform model-based feature selection, reduce dimensionality via PCA, split train and test data. 
-* **resample_data.py**
-  <br> Duplicates the data for each label creating a binary target, resamples each to balance minority labels
-* **fit_models.py**
-  <br> Fit models to the training data. Use random search with cross-validation to tune hyperparameters. Use custom MutlilabelClassifier class.
-* **fit_voting_classifier.py**
-  <br> Aggregate the models from the previous script into both hard and soft voting classifiers. Use custom MultilabelVotingClassifier class.
-* **fit_meta_learner.py**
-  <br> Refit models using the same parameters as discovered in fit_models.py except use only 80% of the training data. Fit a meta learner on those models output using the remaining 20% of training data. Use random search with cross-validation to tune meta-learner hyperparameters.
-* **evaluate_models.py**
-  <br> Load all fit models from a given file and report their accuracy, precision, recall, F1 score, and AUC for each label. Save metrics to a CSV file in metrics/.
+* [**load_data.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/load_data.py)  
+  Loads in the PTB-XL dataset and ECG files.
+* [**signal_processing.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/signal_processing.py)  
+  Perform signal processing on the ECG data to extract features.
+* [**exploratory_data_analysis.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/exploratory_data_analysis.py)  
+  Performs EDA on the dataset: identifies quantity of missing values, distribution of data + labels, and correlation of features to each label. Save outputs to `output/`.
+* [**clean_data.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/clean_data.py)  
+  Remove low-correlation features, impute missing values, scale data, perform model-based feature selection, reduce dimensionality via PCA, split train and test data.
+* [**resample_data.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/resample_data.py)  
+  Duplicates the data for each label creating a binary target, resamples each to balance minority labels.
+* [**fit_models.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/fit_models.py)  
+  Fit models to the training data. Use random search with cross-validation to tune hyperparameters. Use custom `MutlilabelClassifier` class.
+* [**fit_voting_classifier.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/fit_voting_classifier.py)  
+  Aggregate the models from the previous script into both hard and soft voting classifiers. Use custom `MultilabelVotingClassifier` class.
+* [**fit_meta_learner.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/fit_meta_learner.py)  
+  Refit models using the same parameters as discovered in `fit_models.py` except use only 80% of the training data. Fit a meta learner on those models' output using the remaining 20% of training data. Use random search with cross-validation to tune meta-learner hyperparameters.
+* [**evaluate_models.py**](https://github.com/JLavigueure/Machine_Learning_ECG_Analysis/blob/main/evaluate_models.py)  
+  Load all fit models from a given file and report their accuracy, precision, recall, F1 score, and AUC for each label. Save metrics to a CSV file in `metrics/`.
+
 
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -139,25 +140,28 @@ All the scripts are saved in the main repo directory. Additional custcom classes
 * 136 Features
 ### Labels
 
-<div style="display: flex; align-items: flex-start; gap: 20px;">
-  <div>
-    <table>
-      <thead>
-        <tr><th>Label</th><th>Diagnoses</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>NORM</td><td>Normal</td></tr>
-        <tr><td>MI</td><td><a href="https://my.clevelandclinic.org/health/diseases/16818-heart-attack-myocardial-infarction">Myocardial Infarction</a> (heart attack)</td></tr>
-        <tr><td>STTC</td><td><a href="https://www.ncbi.nlm.nih.gov/books/NBK459364/">ST Segment Change</a></td></tr>
-        <tr><td>CD</td><td><a href="https://www.nhlbi.nih.gov/health/conduction-disorders#:~:text=A%20conduction%20disorder%2C%20also%20known,your%20heart's%20rate%20and%20rhythm.">Conduction Disorder</a> (heart block)</td></tr>
-        <tr><td>HYP</td><td><a href="https://www.mayoclinic.org/diseases-conditions/hypertrophic-cardiomyopathy/symptoms-causes/syc-20350198">Hypertrophy</a></td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <img src="images/TargetDistribution.png" alt="Target distribution" width="400"/>
-  </div>
-</div>
+<table>
+  <tr>
+    <td>
+
+<table>
+  <thead>
+    <tr><th>Label</th><th>Diagnoses</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>NORM</td><td>Normal</td></tr>
+    <tr><td>MI</td><td><a href="https://my.clevelandclinic.org/health/diseases/16818-heart-attack-myocardial-infarction">Myocardial Infarction</a> (heart attack)</td></tr>
+    <tr><td>STTC</td><td><a href="https://www.ncbi.nlm.nih.gov/books/NBK459364/">ST Segment Change</a></td></tr>
+    <tr><td>CD</td><td><a href="https://www.nhlbi.nih.gov/health/conduction-disorders#:~:text=A%20conduction%20disorder%2C%20also%20known,your%20heart's%20rate%20and%20rhythm.">Conduction Disorder</a> (heart block)</td></tr>
+    <tr><td>HYP</td><td><a href="https://www.mayoclinic.org/diseases-conditions/hypertrophic-cardiomyopathy/symptoms-causes/syc-20350198">Hypertrophy</a></td></tr>
+  </tbody>
+</table>
+    </td>
+    <td>
+      <img src="images/TargetDistribution.png" alt="Target distribution" width="400"/>
+    </td>
+  </tr>
+</table>
 
 
 
