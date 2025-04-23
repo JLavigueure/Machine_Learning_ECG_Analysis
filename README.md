@@ -586,25 +586,24 @@ All models were evaluated using a test set of the data that consisted of 5,459 r
 
 <!-- CONTACT -->
 ## Contact
-
-<div style="display: flex; align-items: flex-start;">
-  <div style="margin: 50px 30px">
-    <p><strong style="font-size: 2.5em;">Jordan Lavigueure</strong>
-    <br><strong style="font-size: 1em;">University of Washington, B.S. Computer Science 2025</strong></p>
-    ✉️ lav.jordan@live.com 
-    <br><br>
-    <a href="https://www.linkedin.com/in/jordanlavigueure">
-      <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
-    </a>
-    <a href="https://github.com/JLavigueure">
-      <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub repo">
-    </a>
-  </div>
-
-  <div style="margin-left: 20px;">
-    <img src="images/contact_me.png" alt="Contact Image" style="max-width: 400px; height: auto;">
-  </div>
-</div>
+<table>
+  <tr>
+    <td>
+      <p><strong style="font-size: 2.5em;">Jordan Lavigueure</strong><br>
+      <strong style="font-size: 1em;">University of Washington, B.S. Computer Science 2025</strong></p>
+      ✉️ lav.jordan@live.com <br><br>
+      <a href="https://www.linkedin.com/in/jordanlavigueure">
+        <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+      </a>
+      <a href="https://github.com/JLavigueure">
+        <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub repo">
+      </a>
+    </td>
+    <td>
+      <img src="images/contact_me.png" alt="Contact Image" width="350">
+    </td>
+  </tr>
+</table>
 
 
 
