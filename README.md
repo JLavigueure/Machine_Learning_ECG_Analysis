@@ -588,7 +588,7 @@ All models were evaluated using a test set of the data that consisted of 5,459 r
 ## Contact
 <table>
   <tr>
-    <td>
+    <td style="border: none;">
       <p><strong style="font-size: 2.5em;">Jordan Lavigueure</strong><br>
       <strong style="font-size: 1em;">University of Washington, B.S. Computer Science 2025</strong></p>
       ✉️ lav.jordan@live.com <br><br>
@@ -599,7 +599,7 @@ All models were evaluated using a test set of the data that consisted of 5,459 r
         <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub repo">
       </a>
     </td>
-    <td>
+    <td style="border: none;">
       <img src="images/contact_me.png" alt="Contact Image" width="350">
     </td>
   </tr>
