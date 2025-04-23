@@ -173,7 +173,7 @@ Distribution of 3 most correlated ECG features
 
 <img src="images/Qrs_Voltage_Avg_3Distribution.png" alt="Lead 3 QRS Voltage" width="700"/>
 <img src="images/Heart_Rate_SdDistribution.png" alt="Heart Rate" width="700"/>
-<img src="output/distributions/St_Height_4Distribution.png" alt="Lead 4 ST Height" width="700"/>
+<img src="images/St_Height_4Distribution.png" alt="Lead 4 ST Height" width="700"/>
 
 
 ### Missing Values
