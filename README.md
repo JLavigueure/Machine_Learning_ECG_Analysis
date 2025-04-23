@@ -32,10 +32,10 @@
 1. [About the Project](#About-The-Project)
 2. [Installation](#Getting-Started)
 3. [Code Structure](#Code-Structure)
-4. [Exploratory Data Analysis](Exploratory-Data-Analysis-(post-signal-processing))
-5. [Data Cleaning and Resampling](Data-Cleaning-and-Resampling)
-6. [Results](Results)
-7. [Contact](Contact)
+4. [Exploratory Data Analysis](#Exploratory-Data-Analysis-(post-signal-processing))
+5. [Data Cleaning and Resampling](#Data-Cleaning-and-Resampling)
+6. [Results](#Results)
+7. [Contact](#Contact)
 
 
 ## About The Project
